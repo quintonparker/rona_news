@@ -21,6 +21,7 @@ Did you mean <a href="{{ url_for('classicSearch', q=did_you_mean['q']) }}">{{ di
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">{{ doc.title|safe }}</h5>
+    <h6 class="card-title">{{ doc.publishDate|publishDateFormat }}</h6>
     {% if doc.body|length > 300 %}
     <h6 class="card-subtitle mb-2 text-muted">{{ doc.blurb|safe }}</h6>
     {% else %}

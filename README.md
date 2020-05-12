@@ -1,8 +1,8 @@
 # Rona News
 
-This is a mock/poc mobile web app for a searchable news database written in Python using the Flask framework
+This is a demo mobile web app for a searchable news database written in Python using the Flask framework
 
-In this POC we show that Redisearch is not just a viable search engine but also that the Redis ecosystem proves to be a useful platform for building a rich, interactive, observable, and realtime system of engagement
+We show that Redisearch is not just a viable search engine but also that the Redis ecosystem proves to be a useful platform for building a rich, interactive, observable, and realtime system of engagement
 
 ## Install & Run
 
@@ -33,14 +33,13 @@ A single instance of [Redis OSS](http://redis.io/) with the [Redisearch OSS](htt
 
 The Redis instance can also be inspected and queried external to the app via `redis-cli` or a GUI tool such as [RedisInsight](https://redislabs.com/redisinsight/) using ip/port combo `localhost:6379`.
 
-Note: For the purposes of the POC, Redis OSS is adequate and the functionality used here is backwards-compatible with [Redisearch Enterprise](https://redislabs.com/redis-enterprise/technology/redis-search/).
+Note: For the purposes of the demo, Redis OSS is adequate and the functionality used here is backwards-compatible with [Redisearch Enterprise](https://redislabs.com/redis-enterprise/technology/redis-search/).
 
 ### Bootstrapping the database
 
-* `create-schema.py` is a cli script that connects to a Redisearch database and creates the `articles` and `analytics:search` search indices
-* `press-release-indexer.py` is a cli script that parses `sbg_article_202003311020.txt` and imports the articles into a Redisearch search index called `articles`
-* `help-guide-indexer.py` is a cli script that parses `smartphoneApp.json` and imports the help guides into a Redisearch search index called `articles`
-* `reimport.sh` glues this all together and simulates article import by country, platform, and version
+* `create_schema.py` is a cli script that connects to a Redisearch database and creates the `articles` and `analytics:search` search indices
+* `indexer.py` is a cli script that parses `news.csv` and imports the news articles into a Redisearch search index called `articles`
+* `reimport.sh` glues this all together
 
 ### Background/Async workers
 

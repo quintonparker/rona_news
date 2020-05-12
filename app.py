@@ -27,6 +27,11 @@ redisearchClient = Client('articles', conn=redisClient)
 aggregateClient = Client('analytics:search', conn=redisClient)
 
 
+@app.template_filter('publishDateFormat')
+def publishDateFormat(ts, format='%d %b %Y %H:%M'):
+    return datetime.utcfromtimestamp(int(ts)).strftime(format)
+
+
 @app.before_request
 def before_request_func():
     """
@@ -49,8 +54,9 @@ def home():
     """
     viewed = fetchRecentlyViewedArticles(session['id'])
     popular = fetchPopularArticles()
+    recent = fetchMostRecentArticles()
     response = make_response(render_template(
-        'home.html', viewed=viewed, popular=popular))
+        'home.html', viewed=viewed, popular=popular, recent=recent))
     return response
 
 
@@ -440,6 +446,14 @@ def executeSearch(q):
     )
 
     return (results, searchId)
+
+
+def fetchMostRecentArticles(offset=0, limit=5):
+    """
+    Fetch list of most recent articles by offset/limit
+    """
+    redisearchQuery = Query('*').sort_by('publishDate', asc=False).paging(offset, limit)
+    return redisearchClient.search(redisearchQuery)
 
 
 def fetchDidYouMeanSuggestions(q):

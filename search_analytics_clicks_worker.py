@@ -32,7 +32,7 @@ def run(consumer, group='search_analytics', stream='events:search:clicks'):
     """
     Sample (id, entry) tuple
 
-    ('1588078777627-0', {'_version': 'v1', 'type': 'click', 'searchId': '1588078727719-0'})
+    ('1589288439508-0', {'_version': 'v1', 'search_id': '1589288437521-0', 'position': '2', 'article_id': '5857', 'ip': '172.25.0.1', 'user_id': '', 'session_id': 'bb1ee16a3eb745be8d9fcf71d55c3a80'})
     """
     while True:
         for offset in ['0', '>']:

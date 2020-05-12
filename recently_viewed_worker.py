@@ -29,7 +29,7 @@ def run(consumer, group='recently_viewed', stream='events:article:views'):
     """
     Sample (id, entry) tuple
 
-    ('1587656726037-0', {'article_id': 'article:54a6754d6cfc41f875aa8a644589160c0930423a', 'article_type': 'Help Guide', 'article_title': 'Signing into online banking using the app', 'country': 'ZA', 'platform': 'iOS', 'version': 'v2', 'user_id': '2288', 'session_id': 'f65f9d7f6049e857b5f77c5f45908f0adc68901a2c5b7d287e58e1861a23849e'})
+    ('1589288439529-0', {'_version': 'v1', 'type': 'view', 'article_id': '5857', 'article_title': 'Whitehorse teacher Darren Susin picks 5 songs that inspire him', 'user_id': '', 'session_id': 'bb1ee16a3eb745be8d9fcf71d55c3a80'})
     """
     while True:
         for offset in ['0', '>']:

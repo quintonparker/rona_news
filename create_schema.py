@@ -32,7 +32,7 @@ def dropAndCreateSchema(force):
 FT.CREATE articles SCHEMA
 docId TEXT NOSTEM
 authors TAG
-publishDate NUMERIC
+publishDate NUMERIC SORTABLE
 title TEXT WEIGHT 5
 blurb TEXT WEIGHT 2
 body TEXT

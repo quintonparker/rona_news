@@ -9,6 +9,7 @@
 
 <h2>{{ doc.title|safe }}</h2>
 <p><a href="{{ doc.url }}">{{ doc.url }}</a></p>
+<p>{{ doc.publishDate|publishDateFormat }}</p>
 <p>
 {{ doc.body|safe|wordwrap }}
 </p>

@@ -32,7 +32,7 @@ def run(consumer, group='search_analytics', stream='events:search:queries'):
     """
     Sample (id,entry) tuple
 
-    ('1588078788344-0', {'_version': 'v1', 'type': 'query', 'query': "@title|blurb|body:de* @country:{'ZA'} @platform:{'iOS'} @version:{'v1'}", 'term_original': 'de', 'term_normaized': 'de', 'results_total': '1189', 'ip': '127.0.0.1', 'country': 'ZA', 'platform': 'iOS', 'version': 'v1', 'user_id': '2193', 'session_id': '7b9a5f54ee52464bba102e58a95a31c1'})
+    ('1589288437521-0', {'_version': 'v1', 'query': '@title|blurb|body:teachers ', 'term_original': 'teachers', 'term_normalized': 'teachers', 'results_total': '309', 'ip': '172.25.0.1', 'user_id': '', 'session_id': 'bb1ee16a3eb745be8d9fcf71d55c3a80'})
     """
     while True:
         for offset in ['0', '>']:

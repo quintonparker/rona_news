@@ -7,4 +7,21 @@
 </nav>
 {% include 'popular_articles.html' %}
 {% include 'recently_viewed_articles.html' %}
+
+{% if recent and recent.total %}
+<h3>Most Recently Added</h3>
+{% for doc in recent.docs %}
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ doc.title|safe }}</h5>
+    <h6 class="card-title">{{ doc.publishDate|publishDateFormat }}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">{{ doc.blurb|safe }}</h6>
+
+    <a href="{{ url_for('viewArticle', id=doc.id) }}" class="btn btn-primary" data-search-id="">View</a>
+  </div>
+</div>
+<br/>
+{% endfor %}
+{% endif %}
 {% endblock %}
