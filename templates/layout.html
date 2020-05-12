@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap_4.4.1.min.css') }}">
+    <script src="{{ url_for('static', filename='jquery_3.5.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='popper_1.16.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap_4.4.1.min.js') }}"></script>
+
+    <title>Redisearch demo</title>
+</head>
+<body style="font-size: x-small;">
+<div class="container-fluid">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-primary">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+{% if 'email' in session %}
+    <p>Hello {{ session['email'] }}</p>
+{% else %}
+    <p>Do you want to <a href="{{ url_for('login') }}">log in?</a></p>
+{% endif %}
+
+{% include 'search_bar.html' %}
+{% block body %}{% endblock %}
+</div>
+</body>
+</html>

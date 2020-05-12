@@ -1,0 +1,36 @@
+<div id="classic-search-result">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Search results for <strong>{{ request.args.q }}</strong></li>
+    </ol>
+</nav>
+
+{% if results %}
+<p><strong>{{ results.total }}</strong> matches</p>
+
+{% if did_you_mean %}
+<p>
+Did you mean <a href="{{ url_for('classicSearch', q=did_you_mean['q']) }}">{{ did_you_mean['html']|safe }}</a>?
+</p>
+{% endif %}
+
+{% if results.total %}
+{% for doc in results.docs %}
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{ doc.title|safe }}</h5>
+    {% if doc.body|length > 300 %}
+    <h6 class="card-subtitle mb-2 text-muted">{{ doc.blurb|safe }}</h6>
+    {% else %}
+    <h6 class="card-subtitle mb-2 text-muted">{{ doc.body|safe }}</h6>
+    {% endif %}
+
+    <a href="{{ url_for('trackSearchClick', article_id=doc.id, position=loop.index, search_id=search_id) }}" class="btn btn-primary" data-search-id="">View</a>
+  </div>
+</div>
+<br/>
+{% endfor %}
+{% endif %}
+{% endif %}

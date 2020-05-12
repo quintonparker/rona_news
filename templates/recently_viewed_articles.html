@@ -1,0 +1,8 @@
+{% if viewed %}
+<h3>Recently Viewed</h3>
+<ol>
+    {% for id,title in viewed %}
+    <li><a href={{ url_for('viewArticle', id=id) }}>{{ title }}</a></li>
+    {% endfor %}
+</ol>
+{% endif %}

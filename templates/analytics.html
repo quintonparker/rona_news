@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap_4.4.1.min.css') }}">
+
+    <script src="{{ url_for('static', filename='jquery_3.5.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='popper_1.16.0.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap_4.4.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='chart_2.9.3.min.js') }}"></script>
+
+    <title>Redisearch Analytics</title>
+</head>
+<body style="font-size: x-small;">
+<div class="container-fluid">
+<h1>Analytics</h1>
+<p>
+<strong>{{ start }}</strong> -> <strong>{{ end }}</strong>
+</p>
+
+<div class="row">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Queries</h5>
+        <p class="card-text">{{ analytics['total_queries'] }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Queries with No Results</h5>
+        <p class="card-text">{{ analytics['total_queries_with_no_results'] }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">Total Clicks</h5>
+        <p class="card-text">{{ analytics['total_clicks'] }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="chart-container" style="position: relative; padding: 1em; height:50vh; width:90vw">
+    <canvas id="myChart"></canvas>
+</div>
+
+<div class="row">
+  <div class="col-sm">
+
+    <h5>Top Queries</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+            <th scope="col">Term</th>
+            <th scope="col">Queries</th>
+            <th scope="col">Clicks</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for t, q, c in analytics['top_queries'] %}
+        <tr>
+        <td>{{ t }}</td>
+        <td>{{ q }}</td>
+        <td>{{ c }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="col-sm">
+
+    <h5>Top Queries with No Results</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+            <th scope="col">Term</th>
+            <th scope="col">Queries</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for t, q in analytics['top_queries_with_no_results'] %}
+        <tr>
+        <td>{{ t }}</td>
+        <td>{{ q }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+
+
+
+</div>
+</body>
+
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ analytics['graph']['labels']|tojson }},
+        datasets: [{
+            label: 'Queries',
+            data: {{ analytics['graph']['queries']|tojson }},
+            backgroundColor: 'rgb(237,110,133)',
+            borderColor: 'rgb(237,110,133)',
+            fill: false
+        },
+        {
+            label: 'Clicks',
+            data: {{ analytics['graph']['clicks']|tojson }},
+            backgroundColor: 'rgb(84,161,229)',
+            borderColor: 'rgb(84,161,229)',
+            fill: false
+        },
+        {
+            label: 'Queries with No Results',
+            data: {{ analytics['graph']['no_results']|tojson }},
+            backgroundColor: 'rgb(248,206,107)',
+            borderColor: 'rgb(248,206,107)',
+            fill: false
+        }
+        ]
+    },
+    options: {
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>

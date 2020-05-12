@@ -1,0 +1,8 @@
+{% if popular %}
+<h3>Popular</h3>
+<ol>
+    {% for id,title in popular %}
+    <li><a href={{ url_for('viewArticle', id=id) }}>{{ title }}</a></li>
+    {% endfor %}
+</ol>
+{% endif %}

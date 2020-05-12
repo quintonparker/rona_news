@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ doc.title|safe }}</li>
+    </ol>
+</nav>
+
+<h2>{{ doc.title|safe }}</h2>
+<p><a href="{{ doc.url }}">{{ doc.url }}</a></p>
+<p>
+{{ doc.body|safe|wordwrap }}
+</p>
+{% include 'recently_viewed_articles.html' %}
+{% endblock %}

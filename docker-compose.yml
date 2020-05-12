@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+    frontend:
+        build: .
+        image: rona_news:latest
+        command: ['flask', 'run', '--host=0.0.0.0']
+        ports:
+            - 5000:5000
+        volumes:
+            - ./:/app
+        environment:
+            REDIS_URL: redis://redisearch:6379/
+            FLASK_ENV: development
+        depends_on:
+            - indexer
+    indexer:
+        build: .
+        image: rona_news:latest
+        command: ['sh', 'reimport.sh']
+        volumes:
+            - ./:/app
+        environment:
+            REDIS_URL: redis://redisearch:6379/
+        depends_on:
+            - redisearch
+    analytics_queries_worker:
+        build: .
+        image: rona_news:latest
+        command: ['python', '-u', 'search_analytics_queries_worker.py', 'consumer1']
+        restart: unless-stopped
+        volumes:
+            - ./:/app
+        environment:
+            REDIS_URL: redis://redisearch:6379/
+        depends_on:
+            - redisearch
+    analytics_clicks_worker:
+        build: .
+        image: rona_news:latest
+        command: ['python', '-u', 'search_analytics_clicks_worker.py', 'consumer1']
+        restart: unless-stopped
+        volumes:
+            - ./:/app
+        environment:
+            REDIS_URL: redis://redisearch:6379/
+        depends_on:
+            - redisearch
+    recently_viewed_worker:
+        build: .
+        image: rona_news:latest
+        command: ['python', '-u', 'recently_viewed_worker.py', 'consumer1']
+        restart: unless-stopped
+        volumes:
+            - ./:/app
+        environment:
+            REDIS_URL: redis://redisearch:6379/
+        depends_on:
+            - redisearch
+    redisearch:
+        image: redislabs/redisearch:latest
+        ports:
+            - 6379:6379

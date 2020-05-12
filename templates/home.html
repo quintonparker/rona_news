@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+    </ol>
+</nav>
+{% include 'popular_articles.html' %}
+{% include 'recently_viewed_articles.html' %}
+{% endblock %}

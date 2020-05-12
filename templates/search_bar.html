@@ -1,0 +1,35 @@
+<form class="form-inline" action="{{ url_for('classicSearch') }}">
+    <div class="form-group  mb-2">
+      <input name="q" type="text" class="form-control" id="q" value="{{ request.args.get('q', '') }}">
+    </div>
+    <button type="submit" class="btn btn-primary mx-sm-3 mb-2">Search</button>
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" value="" id="searchAsYouTypeToggle">
+        <label class="form-check-label" for="searchAsYouTypeToggle">
+          Instant?
+        </label>
+    </div>
+
+</form>
+
+<div id="instant-search-result"></div>
+<script>
+    $('#searchAsYouTypeToggle').on('change', () => {
+        if ($('#searchAsYouTypeToggle').is(':checked')) {
+            $('#q').val('').focus()
+        }
+        $('#instant-search-result').empty()
+        $('#classic-search-result').empty()
+    })
+
+    $('#q').keyup(() => {
+        if ($('#searchAsYouTypeToggle').is(':checked')) {
+            if ($('#q').val().length >= 2) {
+                $('#instant-search-result').load('{{ url_for("instantSearch") }}?q=' + encodeURIComponent($('#q').val())) 
+            } else {
+                $('#classic-search-result').empty()
+                $('#instant-search-result').empty()
+            }
+        }
+    })
+</script>
