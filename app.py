@@ -297,7 +297,6 @@ def analytics():
     results = [aggregateClient.aggregate(q) for q in queries]
 
     analytics = {}
-    app.logger.debug(results[0].rows)
     analytics['total_queries'] = results[0].rows[0][1] if len(results[0].rows) else 0
     analytics['total_queries_with_no_results'] = results[1].rows[0][1] if len(results[1].rows) else 0
     analytics['total_clicks'] = results[2].rows[0][1] if len(results[2].rows) else 0
