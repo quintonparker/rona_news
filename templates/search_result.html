@@ -12,6 +12,10 @@
 {% if did_you_mean %}
 <p>
 Did you mean <a href="{{ url_for('classicSearch', q=did_you_mean['q']) }}">{{ did_you_mean['html']|safe }}</a>?
+{% if auto_did_you_mean %}
+Showing results for <em>{{ did_you_mean['q'] }}</em>
+{% endif %}
+
 </p>
 {% endif %}
 
