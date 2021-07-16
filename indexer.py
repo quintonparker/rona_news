@@ -29,11 +29,10 @@ def run(file, index):
     """
     Read csv file line by line & add_document to index using redisearch-py BatchIndexer
     """
-    redisearchClient = Client(index, conn=redisClient)
-    indexer = Client.BatchIndexer(redisearchClient)
-
     with open(file) as csvFile:
         articleReader = csv.DictReader(csvFile, delimiter=',', quotechar='"', strict=True)
+        counter = 0
+        pipe = redisClient.pipeline()
         for article in articleReader:
             print(json.dumps(article))
             docId = article['id']
@@ -55,8 +54,14 @@ def run(file, index):
             doc['body'] = article['text']
             doc['url'] = article['url']
             print((docId, json.dumps(doc)))
-            indexer.add_document(docId, replace=True, **doc)
-    indexer.commit()
+            pipe.hset(f'article:{docId}', mapping=doc)
+            counter = counter + 1
+
+            if counter % 500:
+                print(pipe.execute())
+                counter = 0
+                pipe = redisClient.pipeline()
+        pipe.execute()
 
 
 if __name__ == '__main__':
