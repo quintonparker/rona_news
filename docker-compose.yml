@@ -58,6 +58,6 @@ services:
         depends_on:
             - redisearch
     redisearch:
-        image: redislabs/redisearch:latest
+        image: redislabs/redismod:latest
         ports:
             - 6379:6379

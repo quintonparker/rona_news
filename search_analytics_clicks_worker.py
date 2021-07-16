@@ -1,7 +1,6 @@
 import redis
 import os
 import sys
-from redisearch import Client
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,8 +12,6 @@ if REDIS_URL.startswith('rediss'):
                                  ssl_cert_reqs=None)
 else:
     redisClient = redis.from_url(REDIS_URL, decode_responses=True)
-
-redisearchClient = Client('analytics:search', conn=redisClient)
 
 
 def run(consumer, group='search_analytics', stream='events:search:clicks'):
@@ -47,13 +44,7 @@ def run(consumer, group='search_analytics', stream='events:search:clicks'):
                     pipe.expire(key, 3600)
                     results = pipe.execute()
                     print((docId, key, results))
-                    redisearchClient.add_document(
-                        docId,
-                        # nosave=True,
-                        replace=True,
-                        partial=True,
-                        no_create=False,
-                        clicks=int(results[0]))
+                    redisClient.hset(f'analytics:search:{docId}', "clicks", int(results[0]))
                     redisClient.xack(stream, group, id)
 
 

@@ -29,7 +29,7 @@ def dropAndCreateSchema(force):
             print('Warning: Dropping index error (%s)' % e)
 
     redisClient.execute_command("""
-FT.CREATE articles SCHEMA
+FT.CREATE articles ON HASH prefix 1 article: SCHEMA
 docId TEXT NOSTEM
 authors TAG
 publishDate NUMERIC SORTABLE
@@ -40,7 +40,7 @@ url TEXT NOINDEX
 """.replace('\n', ' '))
 
     redisClient.execute_command("""
-FT.CREATE analytics:search SCHEMA
+FT.CREATE analytics:search ON HASH prefix 1 analytics:search: SCHEMA
 docId TEXT NOSTEM
 termOriginal TEXT SORTABLE
 termNormalized TEXT SORTABLE
