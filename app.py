@@ -88,10 +88,16 @@ def classicSearch():
     """
     results, searchId = executeSearch(q)
     didYouMean = fetchDidYouMeanSuggestions(q)
+    autoDidYouMean = False
+
+    if didYouMean and not results.total:
+        results, searchId = executeSearch(didYouMean['q'])
+        autoDidYouMean = True
 
     return make_response(render_template('search.html',
                                          results=results, search_id=searchId,
-                                         did_you_mean=didYouMean))
+                                         did_you_mean=didYouMean,
+                                         auto_did_you_mean=autoDidYouMean))
 
 
 @app.route('/instant-search')
