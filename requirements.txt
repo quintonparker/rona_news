@@ -11,7 +11,7 @@ Jinja2==2.11.3
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
-numpy==1.18.1
+numpy==1.22.0
 opencv-python==4.0.1.24
 pathtools==0.1.2
 pycodestyle==2.5.0
